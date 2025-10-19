@@ -18,44 +18,32 @@ public class CreateFolderViewModel: ObservableObject
     private AuthService authService;
     
     private FileExplorer explorer ;
-    
+    public event Action RequestClose;
     public ObservableCollection<FileNode> CurrentItems => explorer.CurrentItems;
     
-    public IRelayCommand CreateFolderButton { get; }
+    
     
     public IRelayCommand CreateFolder { get; }
 
-    public CreateFolderViewModel()
+    public CreateFolderViewModel(string currentUsername , FileExplorer explorer)
     {
-        CreateFolderButton = new RelayCommand(async () =>
-        {
-            var window = new CreateFoldercommandPanel
-            {
-                DataContext = this
-            };
-            CreateFolderPanel = Visibility.Visible;
-            window.ShowDialog(); 
-            
-        });
+        _currentUsername = currentUsername;
+        authService = new AuthService();
+        this.explorer = explorer;
+        
+        
         CreateFolder = new RelayCommand(async () =>
         {
 
             await CreateFolderCommand();
-            CreateFoldercommandPanel Chto = new CreateFoldercommandPanel();
-            Application.Current.MainWindow = Chto;
-            foreach (Window win in Application.Current.Windows)
-            {
-                if (win != Chto)
-                {
-                    win.Close();
-                    break;
-                }
-            }
+            
+            RequestClose?.Invoke();
         });
     }
     
     private async Task CreateFolderCommand()
     {
+        
         Console.WriteLine("Метод регистрации запушен");
         Console.WriteLine($"{CurrentUsername} {PasswordCreateFolder}");
         MessageBox.Show($"CurrentUsername = {CurrentUsername}"); 
@@ -92,4 +80,13 @@ public class CreateFolderViewModel: ObservableObject
         get => _folderName;
         set => SetProperty(ref _folderName, value);
     }
+    
+    private string _currentUsername;
+    public string CurrentUsername
+    {
+        get => _currentUsername;
+        private set => SetProperty(ref _currentUsername, value);
+    }
+    
+    
 }

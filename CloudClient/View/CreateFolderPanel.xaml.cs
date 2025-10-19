@@ -1,4 +1,3 @@
-
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,17 +19,20 @@ using CloudClient.Services;
 
 namespace CloudClient.Veiw;
 
-public partial class CreateFoldercommandPanel: Window
+public partial class CreateFolderPanel: Window
 {
-    public CreateFoldercommandPanel()
+    public CreateFolderPanel(string username ,FileExplorer explorer)
     {
         InitializeComponent();
-        DataContext = new CreateFolderViewModel();
+        var vm = new CreateFolderViewModel(username, explorer);
+        DataContext = vm;
+
+        vm.RequestClose += () => this.Close();
     }
     
     private void CreateFolderPassword_OnPasswordChanged(object sender, RoutedEventArgs e)
 {
-    if (DataContext is MainViewModel vm)
+    if (DataContext is CreateFolderViewModel vm)
     {
         vm.PasswordCreateFolder = ((PasswordBox)sender).Password;
     }

@@ -22,3 +22,10 @@ C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\Clo
 C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\ref\CloudClient.dll
 C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\CreateFolderPanel.baml
 C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\CreateFolderPanel.g.cs
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\CloudClient_MarkupCompile.lref
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\App.baml
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\CloudClient.sourcelink.json
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\LoginPanel.baml
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\RegisterPanel.baml
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\LoginPanel.g.cs
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\RegisterPanel.g.cs

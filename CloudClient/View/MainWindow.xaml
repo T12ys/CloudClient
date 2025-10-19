@@ -5,58 +5,9 @@
         WindowStartupLocation="CenterScreen" Background="#f4f4f4">
 
     <Grid Margin="16">
-
-        <!-- Панель входа -->
-        <StackPanel x:Name="LoginPanel" VerticalAlignment="Top" Visibility="{Binding LoginPanel}" Height="300"
-                    Width="360">
-            <TextBlock Text="Вход" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
-
-            <TextBlock Text="Ник" />
-            <TextBox x:Name="LoginNick" Margin="0,4,0,10" Text="{Binding Username}" />
-
-            <TextBlock Text="Пароль" />
-            <PasswordBox x:Name="LoginPassword" Margin="0,4,0,16" PasswordChanged="LoginPassword_OnPasswordChanged" />
-
-            <Button x:Name="LoginButton" Content="Войти" Height="30" Command="{Binding Login}" />
-
-            <TextBlock Text="Авторизоваться"
-                       Margin="0,16,0,0"
-                       Foreground="Blue"
-                       TextDecorations="Underline"
-                       Cursor="Hand"
-                       HorizontalAlignment="Center"
-                       MouseLeftButtonUp="GoToRegister" />
-        </StackPanel>
-
-        <!-- Панель регистрации -->
-        <StackPanel x:Name="RegisterPanel" VerticalAlignment="Top" Visibility="{Binding RegisterPanel}" Height="300"
-                    Width="360">
-            <TextBlock Text="Регистрация" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
-
-            <TextBlock Text="Ник" />
-            <TextBox x:Name="RegNick" Margin="0,4,0,10" Text="{Binding Username}" />
-
-            <TextBlock Text="Пароль" />
-            <PasswordBox x:Name="RegPassword" Margin="0,4,0,10" PasswordChanged="RegistrPassword_OnPasswordChanged" />
-
-            <TextBlock Text="Повторите пароль" />
-            <PasswordBox x:Name="RegPasswordConfirm" Margin="0,4,0,16"
-                         PasswordChanged="RegistrPasswordCopy_OnPasswordChanged" />
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="RegisterButton"
-                        Content="Авторизоваться"
-                        Height="30" Width="130"
-                        Margin="0,0,8,0"
-                        Command="{Binding Register}" />
-                <Button Content="Назад"
-                        Height="30" Width="80"
-                        Click="GoToLogin" />
-            </StackPanel>
-        </StackPanel>
-
+        
         <!-- Панель проводника -->
-        <Grid x:Name="ExplorerPanel" Visibility="{Binding ExplorerPanel}" Height="600">
+        <Grid x:Name="ExplorerPanel" Height="600">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="200" />
