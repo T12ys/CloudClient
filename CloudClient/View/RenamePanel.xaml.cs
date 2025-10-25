@@ -29,5 +29,6 @@ public partial class RenamePanel : Window
         this.DataContext = vm;
 
         vm.RequestClose += () => this.Close();
+        vm.OnMessageBox += message => MessageBox.Show(message);
     }
 }

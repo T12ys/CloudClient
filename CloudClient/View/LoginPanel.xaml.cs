@@ -28,6 +28,7 @@ public partial class LoginPanel : Window
         var explorer = new FileExplorer(); 
         var vm = new LoginViewModel(explorer);
         this.DataContext = vm;
+        vm.OnMessageBox += message => MessageBox.Show(message);
 
         vm.RequestClose += () => this.Close();
     }

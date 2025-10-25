@@ -25,7 +25,9 @@ public partial class RegisterPanel : Window
     public RegisterPanel()
     {
         InitializeComponent();
-        DataContext = new RegisterViewModel();
+        var vm = new RegisterViewModel();
+        DataContext = vm;
+        vm.OnMessageBox += message => MessageBox.Show(message);
     }
     private void RegistrPasswordCopy_OnPasswordChanged(object sender, RoutedEventArgs e)
     {

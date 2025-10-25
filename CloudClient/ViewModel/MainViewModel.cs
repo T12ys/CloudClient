@@ -18,7 +18,8 @@ public class MainViewModel : ObservableObject
     private AuthService authService;
     
     private FileExplorer explorer ;
-    
+
+    public event Action<string> OnMessageBox;
     public ObservableCollection<FileNode> CurrentItems => explorer.CurrentItems;
 
     
@@ -116,11 +117,9 @@ public class MainViewModel : ObservableObject
         Console.WriteLine($"{SelectedItem?.FullPath}");
         Response<string> response = await authService.DownloadFileAsync(SelectedItem?.FullPath);
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        
+        OnMessageBox?.Invoke(response.Message);
+        
         
     }
     
@@ -130,11 +129,8 @@ public class MainViewModel : ObservableObject
         Console.WriteLine($"{SelectedItem?.FullPath}");
         Response<string> response = await authService.DeleteAsync(SelectedItem?.FullPath);
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        OnMessageBox?.Invoke(response.Message);
+        
         
         if (response.Success)
         {
@@ -152,11 +148,9 @@ public class MainViewModel : ObservableObject
         Console.WriteLine($"{SelectedItem?.FullPath}");
         Response<string> response = await authService.CopyAsync(SelectedItem?.FullPath);
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        
+        OnMessageBox?.Invoke(response.Message);
+        
         
         if (response.Success)
         {

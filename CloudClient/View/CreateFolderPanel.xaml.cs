@@ -28,6 +28,7 @@ public partial class CreateFolderPanel: Window
         DataContext = vm;
 
         vm.RequestClose += () => this.Close();
+        vm.OnMessageBox += message => MessageBox.Show(message);
     }
     
     private void CreateFolderPassword_OnPasswordChanged(object sender, RoutedEventArgs e)

@@ -19,6 +19,7 @@ public class RegisterViewModel: ObservableObject
     
     private AuthService authService;
     
+    public event Action<string> OnMessageBox;
     public IRelayCommand Register { get; }
 
     public RegisterViewModel()
@@ -35,11 +36,9 @@ public class RegisterViewModel: ObservableObject
         Console.WriteLine("Метод регистрации запушен");
         Response<string> response = await authService.RegistrationAsync(UsernameRegistr, PasswordRegistr, PasswordCopy);
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        
+        OnMessageBox?.Invoke(response.Message);
+        
         
     }
     

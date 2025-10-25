@@ -118,60 +118,77 @@ public class AuthService
     }
 
     public async Task<Response<string>> DownloadFileAsync(string selectedFilePath)
+{
+    var dialog = new VistaFolderBrowserDialog
     {
-        var dialog = new VistaFolderBrowserDialog
-        {
-            Description = "Выберите папку"
-        };
+        Description = "Выберите папку"
+    };
 
-        string destinationFolderPath;
-        if (dialog.ShowDialog() == true)
-        {
-            destinationFolderPath = dialog.SelectedPath;
-        }
-        else
-        {
-            return new Response<string> { Success = false, Message = "Папка не выбрана" };
-        }
-
-
-        var request = new DownloadFileRequest
-        {
-            SelectedFilePath = selectedFilePath
-        };
-
-        string json = JsonSerializer.Serialize(request);
-        string responseJson = await _tcp.SendRequestAsync(json);
-        Console.WriteLine(responseJson); 
-
-        if (string.IsNullOrEmpty(responseJson))
-        {
-            return new Response<string> { Success = false, Message = "Не удалось подключиться к серверу" };
-        }
-
-
-        var response = JsonSerializer.Deserialize<Response<FileDataResponse>>(responseJson);
-
-        if (response == null || !response.Success || response.Data == null)
-        {
-            return new Response<string>
-                { Success = false, Message = response?.Message ?? "Ошибка при получении файла" };
-        }
-
-
-        string fullFilePath = Path.Combine(destinationFolderPath, response.Data.FileName);
-
-        try
-        {
-            await File.WriteAllBytesAsync(fullFilePath, response.Data.FileData);
-        }
-        catch (Exception ex)
-        {
-            return new Response<string> { Success = false, Message = $"Не удалось сохранить файл: {ex.Message}" };
-        }
-
-        return new Response<string> { Success = true, Message = "Файл успешно загружен", Data = fullFilePath };
+    string destinationFolderPath;
+    if (dialog.ShowDialog() == true)
+    {
+        destinationFolderPath = dialog.SelectedPath;
     }
+    else
+    {
+        return new Response<string> { Success = false, Message = "Папка не выбрана" };
+    }
+
+    
+    string fileName = Path.GetFileName(selectedFilePath);
+    string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+    string ext = Path.GetExtension(fileName);
+
+    int counter = 0;
+    string newFileName = fileName;
+    string fullFilePath = Path.Combine(destinationFolderPath, newFileName);
+
+    while (File.Exists(fullFilePath))
+    {
+        counter++;
+        newFileName = $"{fileNameWithoutExt}_{counter}{ext}";
+        fullFilePath = Path.Combine(destinationFolderPath, newFileName);
+    }
+
+    
+    var request = new DownloadFileRequest
+    {
+        SelectedFilePath = selectedFilePath,
+        FileExistsIndicator = counter > 0,
+        FileIncrement = counter
+    };
+
+    string json = JsonSerializer.Serialize(request);
+    string responseJson = await _tcp.SendRequestAsync(json);
+    Console.WriteLine(responseJson);
+
+    if (string.IsNullOrEmpty(responseJson))
+        return new Response<string> { Success = false, Message = "Не удалось подключиться к серверу" };
+
+    var response = JsonSerializer.Deserialize<Response<FileDataResponse>>(responseJson);
+
+    if (response == null || !response.Success || response.Data == null)
+        return new Response<string> { Success = false, Message = response?.Message ?? "Ошибка при получении файла" };
+
+    try
+    {
+        await File.WriteAllBytesAsync(fullFilePath, response.Data.FileData);
+    }
+    catch (Exception ex)
+    {
+        return new Response<string> { Success = false, Message = $"Не удалось сохранить файл: {ex.Message}" };
+    }
+
+    return new Response<string> 
+    { 
+        Success = true, 
+        Message = counter > 0 
+            ? $"Файл уже существовал, сохранён как {newFileName}" 
+            : "Файл успешно загружен", 
+        Data = fullFilePath 
+    };
+}
+
 
     public async Task<Response<string>> RenameAsync(string selectedFilePath ,string newName)
     {

@@ -19,6 +19,8 @@ public class CreateFolderViewModel: ObservableObject
     
     private FileExplorer explorer ;
     public event Action RequestClose;
+    
+    public event Action<string> OnMessageBox;
     public ObservableCollection<FileNode> CurrentItems => explorer.CurrentItems;
     
     
@@ -48,11 +50,9 @@ public class CreateFolderViewModel: ObservableObject
         Console.WriteLine($"{CurrentUsername} {PasswordCreateFolder}");
         Response<string> response = await authService.CreateFolderAsync(CurrentUsername, PasswordCreateFolder,FolderName,CurrentPath);
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        
+        OnMessageBox?.Invoke(response.Message);
+        
         if (response.Success)
         {
             FileNode rootNode = JsonSerializer.Deserialize<FileNode>(response.Data);

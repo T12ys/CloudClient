@@ -24,7 +24,9 @@ public partial class MainWindow : Window
     public MainWindow(string currentUsername , FileExplorer explorer)
     {
         InitializeComponent();
-        DataContext = new MainViewModel( currentUsername ,explorer);
+        var a = new MainViewModel( currentUsername ,explorer);
+        DataContext = a;
+        a.OnMessageBox += message => MessageBox.Show(message);
     }
     
     private void FileList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

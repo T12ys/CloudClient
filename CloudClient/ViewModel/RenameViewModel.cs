@@ -20,6 +20,7 @@ public class RenameViewModel: ObservableObject
     private FileExplorer explorer ;
     public event Action RequestClose;
     
+    public event Action<string> OnMessageBox;
     public ObservableCollection<FileNode> CurrentItems => explorer.CurrentItems;
 
     public IRelayCommand Rename { get; }
@@ -43,11 +44,9 @@ public class RenameViewModel: ObservableObject
 
         Response<string> response = await authService.RenameAsync(SelectedItem?.FullPath , NewName );
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        
+        OnMessageBox?.Invoke(response.Message);
+        
         
         if (response.Success)
         {

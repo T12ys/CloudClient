@@ -22,6 +22,8 @@ public class LoginViewModel: ObservableObject
     public IRelayCommand Login { get; }
     
     public event Action RequestClose;
+    
+    public event Action<string> OnMessageBox;
 
     public LoginViewModel(FileExplorer explorer)
     {
@@ -40,11 +42,9 @@ public class LoginViewModel: ObservableObject
         Console.WriteLine("Метод входа запушен");
         Response<string> response = await authService.LoginAsync(UsernameLogin, PasswordLogin);
         
-        //=============================================================
-        //=============================================================
-        MessageBox.Show($"{response.Message}");
-        //=============================================================
-        //=============================================================
+        
+        OnMessageBox?.Invoke(response.Message);
+        
         
         if (response.Success)
         {
