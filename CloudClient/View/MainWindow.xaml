@@ -6,8 +6,7 @@
 
     <Grid Margin="16">
         
-        <!-- Панель проводника -->
-        <Grid x:Name="ExplorerPanel" Height="600">
+        <Grid Height="600">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="200" />

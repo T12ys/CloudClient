@@ -10,18 +10,17 @@
             <TextBlock Text="Регистрация" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
 
             <TextBlock Text="Ник" />
-            <TextBox x:Name="RegNick" Margin="0,4,0,10" Text="{Binding Username}" />
+            <TextBox  Margin="0,4,0,10" Text="{Binding Username}" />
 
             <TextBlock Text="Пароль" />
-            <PasswordBox x:Name="RegPassword" Margin="0,4,0,10" PasswordChanged="RegistrPassword_OnPasswordChanged" />
+            <PasswordBox  Margin="0,4,0,10" PasswordChanged="RegistrPassword_OnPasswordChanged" />
 
             <TextBlock Text="Повторите пароль" />
-            <PasswordBox x:Name="RegPasswordConfirm" Margin="0,4,0,16"
+            <PasswordBox  Margin="0,4,0,16"
                          PasswordChanged="RegistrPasswordCopy_OnPasswordChanged" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="RegisterButton"
-                        Content="Авторизоваться"
+                <Button Content="Авторизоваться"
                         Height="30" Width="130"
                         Margin="0,0,8,0"
                         Command="{Binding Register}" />

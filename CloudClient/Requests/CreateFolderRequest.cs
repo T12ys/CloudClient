@@ -10,6 +10,6 @@ public class CreateFolderRequest:BaseRequest
     
     public string CurrentDirectory {get; set;}
     
-    public CreateFolderRequest() : base("CreateFolder") {}
+    public CreateFolderRequest() : base("CREATEFOLDER") {}
     
 }

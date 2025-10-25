@@ -46,10 +46,13 @@ public class CreateFolderViewModel: ObservableObject
         
         Console.WriteLine("Метод регистрации запушен");
         Console.WriteLine($"{CurrentUsername} {PasswordCreateFolder}");
-        MessageBox.Show($"CurrentUsername = {CurrentUsername}"); 
-        Response<string> response = await authService.CreateFolder(CurrentUsername, PasswordCreateFolder,FolderName,CurrentPath);
+        Response<string> response = await authService.CreateFolderAsync(CurrentUsername, PasswordCreateFolder,FolderName,CurrentPath);
         
+        //=============================================================
+        //=============================================================
         MessageBox.Show($"{response.Message}");
+        //=============================================================
+        //=============================================================
         if (response.Success)
         {
             FileNode rootNode = JsonSerializer.Deserialize<FileNode>(response.Data);

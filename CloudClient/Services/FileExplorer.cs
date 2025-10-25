@@ -8,7 +8,7 @@ namespace CloudClient.Services;
 
 public class FileExplorer
 {
-    private FileNode rootNode; 
+    private FileNode? rootNode; 
     private FileNode? currentNode; 
     public ObservableCollection<FileNode> CurrentItems { get; set; } = new();
     public FileNode? SelectedItem { get; set; } 

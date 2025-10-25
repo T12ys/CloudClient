@@ -29,3 +29,6 @@ C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\Vie
 C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\RegisterPanel.baml
 C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\LoginPanel.g.cs
 C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\RegisterPanel.g.cs
+C:\Users\User\RiderProjects\CloudClient\CloudClient\bin\Debug\net9.0-windows\Ookii.Dialogs.Wpf.dll
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\RenamePanel.baml
+C:\Users\User\RiderProjects\CloudClient\CloudClient\obj\Debug\net9.0-windows\View\RenamePanel.g.cs

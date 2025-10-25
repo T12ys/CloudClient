@@ -28,8 +28,6 @@ public class MainViewModel : ObservableObject
         get => explorer.SelectedItem;
         set => explorer.SelectedItem = value;
     }
-    
-    
 
    
     public IRelayCommand NavigateBackCommand { get; }
@@ -44,6 +42,8 @@ public class MainViewModel : ObservableObject
     public IRelayCommand CopyCommand { get; }
     public IRelayCommand ExitCommand { get; }
     
+    
+    
     public MainViewModel(string currentUsername ,FileExplorer explorer)
     {
         authService = new AuthService();
@@ -55,18 +55,34 @@ public class MainViewModel : ObservableObject
         OpenSelectedItemCommand = new RelayCommand(() => { explorer.OpenSelectedItem(); OnPropertyChanged(nameof(CurrentPath)); });
 
         
-        CreateFolderButton = new RelayCommand(async () =>
+        CreateFolderButton = new RelayCommand(() =>
         {
-            MessageBox.Show($"{currentUsername}");
-            CreateFolderPanel popup = new CreateFolderPanel(currentUsername , explorer);
-            popup.ShowDialog();
+            CreateFolderPanel Panel = new CreateFolderPanel(currentUsername , explorer);
+            Panel.ShowDialog();
         });
         
-        UploadFileCommand = new RelayCommand(() => { });
-        DownloadFileCommand = new RelayCommand(() => { });
-        RenameCommand = new RelayCommand(() => { });
-        DeleteCommand = new RelayCommand(() => { });
-        CopyCommand = new RelayCommand(() => { });
+        UploadFileCommand = new RelayCommand(async () =>
+        {
+            await UploadFile();
+        });
+        
+        DownloadFileCommand = new RelayCommand(async () =>
+        {
+            await DownloadFile();
+        });
+        RenameCommand = new RelayCommand(() =>
+        {
+            RenamePanel Panel = new RenamePanel(explorer);
+            Panel.ShowDialog();
+        });
+        DeleteCommand = new RelayCommand(async() =>
+        {
+            await Delete();
+        });
+        CopyCommand = new RelayCommand(async() =>
+        {
+            await Copy();
+        });
         ExitCommand = new RelayCommand(() => Application.Current.Shutdown());
         
     }
@@ -77,8 +93,81 @@ public class MainViewModel : ObservableObject
     
     
     //=================================================================
+
+
+    private async Task UploadFile()
+    {
+        Console.WriteLine("Метод добавления файла запушен");
+
+        Response<string> response = await authService.UploadFileAsync(CurrentPath);
+        MessageBox.Show($"{response.Message}");
+        if (response.Success)
+        {
+            FileNode rootNode = JsonSerializer.Deserialize<FileNode>(response.Data);
+            
+            explorer.LoadRoot(rootNode);
+            MyServerHelper.PrintTree(rootNode, 0);
+        }
+    }
+
+    private async Task DownloadFile()
+    {
+        Console.WriteLine("Метод скачивания файла запушен");
+        Console.WriteLine($"{SelectedItem?.FullPath}");
+        Response<string> response = await authService.DownloadFileAsync(SelectedItem?.FullPath);
+        
+        //=============================================================
+        //=============================================================
+        MessageBox.Show($"{response.Message}");
+        //=============================================================
+        //=============================================================
+        
+    }
     
-  
+    private async Task Delete()
+    {
+        Console.WriteLine("Метод удаления запушен");
+        Console.WriteLine($"{SelectedItem?.FullPath}");
+        Response<string> response = await authService.DeleteAsync(SelectedItem?.FullPath);
+        
+        //=============================================================
+        //=============================================================
+        MessageBox.Show($"{response.Message}");
+        //=============================================================
+        //=============================================================
+        
+        if (response.Success)
+        {
+            FileNode rootNode = JsonSerializer.Deserialize<FileNode>(response.Data);
+            
+            explorer.LoadRoot(rootNode);
+            MyServerHelper.PrintTree(rootNode, 0);
+        }
+        
+    }
+    
+    private async Task Copy()
+    {
+        Console.WriteLine("Метод копирования запушен");
+        Console.WriteLine($"{SelectedItem?.FullPath}");
+        Response<string> response = await authService.CopyAsync(SelectedItem?.FullPath);
+        
+        //=============================================================
+        //=============================================================
+        MessageBox.Show($"{response.Message}");
+        //=============================================================
+        //=============================================================
+        
+        if (response.Success)
+        {
+            FileNode rootNode = JsonSerializer.Deserialize<FileNode>(response.Data);
+            
+            explorer.LoadRoot(rootNode);
+            MyServerHelper.PrintTree(rootNode, 0);
+        }
+        
+    }
+    
     public string CurrentPath
     {
         get => explorer.CurrentPath;

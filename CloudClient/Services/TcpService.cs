@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Sockets;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,17 +17,27 @@ public class TcpService
         _host = host;
         _port = port;
     }
-
+    
     public async Task<string> SendRequestAsync(string message)
     {
         using var client = new TcpClient(_host, _port);
-        using var writer = new StreamWriter(client.GetStream());
-        using var reader = new StreamReader(client.GetStream());
-
+        using var stream = client.GetStream();
+        using var writer = new StreamWriter(stream) { AutoFlush = true };
+        using var reader = new StreamReader(stream);
+        
         await writer.WriteLineAsync(message);
-        await writer.FlushAsync();
+        
+        var sb = new StringBuilder();
+        char[] buffer = new char[1024];
+        int read;
+        while ((read = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
+        {
+            sb.Append(buffer, 0, read);
+            if (sb.Length > 0 && sb[sb.Length - 1] == '\n')
+                break;
+        }
 
-        string response = await reader.ReadLineAsync();
-        return response;
+        return sb.ToString().TrimEnd('\n');
     }
+
 }

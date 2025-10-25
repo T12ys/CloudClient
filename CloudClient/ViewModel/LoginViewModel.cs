@@ -32,12 +32,6 @@ public class LoginViewModel: ObservableObject
         {
             await LoginCommand();
             
-            MainWindow mainWindow = new MainWindow(CurrentUsername ,explorer);
-            mainWindow.Show();
-            
-            RequestClose?.Invoke();
-            
-            
         });
     }
     
@@ -45,7 +39,12 @@ public class LoginViewModel: ObservableObject
     {
         Console.WriteLine("Метод входа запушен");
         Response<string> response = await authService.LoginAsync(UsernameLogin, PasswordLogin);
+        
+        //=============================================================
+        //=============================================================
         MessageBox.Show($"{response.Message}");
+        //=============================================================
+        //=============================================================
         
         if (response.Success)
         {
@@ -54,6 +53,11 @@ public class LoginViewModel: ObservableObject
             
             explorer.LoadRoot(rootNode);
             MyServerHelper.PrintTree(rootNode, 0);
+            
+            MainWindow mainWindow = new MainWindow(CurrentUsername ,explorer);
+            mainWindow.Show();
+            
+            RequestClose?.Invoke();
         }
         
     }

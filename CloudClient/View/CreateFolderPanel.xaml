@@ -10,13 +10,13 @@
             <TextBlock Text="Создание новой папки" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
 
             <TextBlock Text="Пароль" />
-            <PasswordBox x:Name="CreateFolderPassword" Margin="0,4,0,16"
+            <PasswordBox Margin="0,4,0,16"
                          PasswordChanged="CreateFolderPassword_OnPasswordChanged" />
 
             <TextBlock Text="Название папки" />
-            <TextBox x:Name="CreateFolderNick" Margin="0,4,0,10" Text="{Binding FolderName}" />
+            <TextBox Margin="0,4,0,10" Text="{Binding FolderName}" />
 
-            <Button x:Name="CreateFolderButton" Content="Создать папку" Height="30" Command="{Binding CreateFolder}" />
+            <Button  Content="Создать папку" Height="30" Command="{Binding CreateFolder}" />
 
         </StackPanel>
     </Grid>

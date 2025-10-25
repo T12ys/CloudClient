@@ -33,8 +33,14 @@ public class RegisterViewModel: ObservableObject
     private async Task RegisterCommand()
     {
         Console.WriteLine("Метод регистрации запушен");
-        Response<string> response = await authService.Registration(UsernameRegistr, PasswordRegistr, PasswordCopy);
+        Response<string> response = await authService.RegistrationAsync(UsernameRegistr, PasswordRegistr, PasswordCopy);
+        
+        //=============================================================
+        //=============================================================
         MessageBox.Show($"{response.Message}");
+        //=============================================================
+        //=============================================================
+        
     }
     
     private string _passwordRegistr;
